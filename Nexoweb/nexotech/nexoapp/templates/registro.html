@@ -1,0 +1,29 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro</title>
+  <link rel="stylesheet" href="{% static 'stylelogin.css' %}">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+</head>
+<body>
+  <div class="container">
+    <form method="post">
+      {% csrf_token %}
+      <h1>Registro</h1>
+
+      {{ form|crispy }}
+
+      <button type="submit" class="btn">Registrarse</button>
+
+      <div class="register-link">
+        <p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión</a></p>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
