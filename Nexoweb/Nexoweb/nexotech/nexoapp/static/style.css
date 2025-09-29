@@ -1,0 +1,205 @@
+/* Reset rápido */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ---------------- NAVBAR ---------------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0d1117;
+  color: #fff;
+  padding: 1rem 2rem;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.logo-box {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: #00adb5;
+  border-radius: 8px;
+}
+.menu a {
+  color: #bbb;
+  margin-right: 1rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+.menu a.active,
+.menu a:hover {
+  color: #fff;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.link-sub {
+  color: #00adb5;
+  font-weight: 600;
+}
+.icon-btn {
+  font-size: 1.2rem;
+  padding: 0.4rem;
+}
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-dark {
+  background: #00adb5;
+  color: #fff;
+}
+.btn-dark:hover {
+  background: #008891;
+}
+
+/* ---------------- LAYOUT ---------------- */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+.section {
+  margin-bottom: 3rem;
+}
+.section h2 {
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+/* Hero box (placeholder grande) */
+.hero-box {
+  background: linear-gradient(135deg, #00adb5, #006f75);
+  height: 200px;
+  border-radius: 12px;
+}
+
+/* ---------------- CARDS ---------------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.card-media {
+  height: 150px;
+  background: #eaeaea;
+}
+.card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.muted {
+  color: #666;
+  font-size: 0.9rem;
+}
+.actions .btn {
+  background: #00adb5;
+  color: #fff;
+}
+.actions .btn:hover {
+  background: #008891;
+}
+.input {
+  padding: 0.3rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* ---------------- FOOTER ---------------- */
+.footer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  background: #0d1117;
+  color: #ddd;
+  padding: 2rem;
+  margin-top: 3rem;
+}
+.footer h4 {
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+.footer ul {
+  list-style: none;
+}
+.footer a {
+  color: #bbb;
+  text-decoration: none;
+}
+.footer a:hover {
+  color: #fff;
+}
+.footer-logo {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: #00adb5;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .nav-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .nav-right {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .nav-right .btn {
+    align-self: stretch; /* el botón "Iniciar sesión" ocupa todo el ancho */
+    text-align: center;
+  }
+}
+
