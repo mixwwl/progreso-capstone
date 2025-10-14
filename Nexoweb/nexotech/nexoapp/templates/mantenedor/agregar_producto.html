@@ -1,0 +1,506 @@
+<!-- agregar_producto.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'mant.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-plus-circle"></i>
+                        {{ titulo|default:"Agregar Nuevo Producto" }}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" id="form-agregar-producto">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="row">
+                            <!-- Columna Izquierda -->
+                            <div class="col-md-6">
+                                <!-- Código del Producto -->
+                                <div class="mb-3">
+                                    <label for="{{ form.codigo_producto.id_for_label }}" class="form-label">
+                                        <strong>Código del Producto *</strong>
+                                    </label>
+                                    {{ form.codigo_producto }}
+                                    {% if form.codigo_producto.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.codigo_producto.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    <div class="form-text">Ej: PROD-001</div>
+                                </div>
+
+                                <!-- Nombre del Producto -->
+                                <div class="mb-3">
+                                    <label for="{{ form.nombre.id_for_label }}" class="form-label">
+                                        <strong>Nombre del Producto *</strong>
+                                    </label>
+                                    {{ form.nombre }}
+                                    {% if form.nombre.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.nombre.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    <div class="form-text">Ej: Martillo Profesional</div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <div class="mb-3">
+                                    <label for="{{ form.descripcion.id_for_label }}" class="form-label">
+                                        <strong>Descripción</strong>
+                                    </label>
+                                    {{ form.descripcion }}
+                                    {% if form.descripcion.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.descripcion.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    <div class="form-text">Describe las características del producto...</div>
+                                </div>
+
+                                <!-- Precio -->
+                                <div class="mb-3">
+                                    <label for="{{ form.precio.id_for_label }}" class="form-label">
+                                        <strong>Precio ($)</strong>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        {{ form.precio }}
+                                    </div>
+                                    {% if form.precio.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.precio.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Columna Derecha -->
+                            <div class="col-md-6">
+                                <!-- Categoría Existente -->
+                                <div class="mb-3">
+                                    <label for="{{ form.categoria.id_for_label }}" class="form-label">
+                                        <strong>Seleccionar categoría existente</strong>
+                                    </label>
+                                    {{ form.categoria }}
+                                    {% if form.categoria.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.categoria.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    <div class="form-text">
+                                        Elige una categoría de la lista. <strong>Selecciona "---------" para crear nueva categoría</strong>
+                                    </div>
+                                </div>
+
+                                <!-- Nueva Categoría -->
+                                <div class="mb-3">
+                                    <label for="{{ form.nueva_categoria.id_for_label }}" class="form-label">
+                                        <strong>O crear nueva categoría</strong>
+                                    </label>
+                                    {{ form.nueva_categoria }}
+                                    {% if form.nueva_categoria.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.nueva_categoria.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    <div class="form-text">
+                                        Si no encuentras la categoría, escribe el nombre de una nueva aquí.
+                                    </div>
+                                    <!-- Mensaje dinámico se insertará aquí -->
+                                </div>
+
+                                <!-- Stock -->
+                                <div class="mb-3">
+                                    <label for="{{ form.cantidad.id_for_label }}" class="form-label">
+                                        <strong>Stock Disponible *</strong>
+                                    </label>
+                                    {{ form.cantidad }}
+                                    {% if form.cantidad.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.cantidad.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Imagen del Producto -->
+                                <div class="mb-3">
+                                    <label for="{{ form.imagen.id_for_label }}" class="form-label">
+                                        <strong>Imagen del Producto</strong>
+                                    </label>
+                                    {{ form.imagen }}
+                                    {% if form.imagen.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.imagen.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    <div class="form-text">
+                                        Formatos permitidos: JPG, PNG, WEBP. Tamaño máximo: 5MB.
+                                    </div>
+                                </div>
+
+                                <!-- Estado -->
+                                <div class="mb-3">
+                                    <label for="{{ form.estado.id_for_label }}" class="form-label">
+                                        <strong>Estado del Producto</strong>
+                                    </label>
+                                    {{ form.estado }}
+                                    {% if form.estado.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.estado.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información sobre categorías -->
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-info-circle"></i> Información sobre categorías:</h6>
+                            <ul class="mb-0">
+                                <li><strong>Para usar categoría existente:</strong> Selecciona una categoría de la lista y deja vacío el campo de nueva categoría.</li>
+                                <li><strong>Para crear nueva categoría:</strong> Selecciona "---------" en categoría existente y escribe el nombre de la nueva categoría.</li>
+                                <li>Si creas una nueva categoría, se guardará automáticamente en el sistema.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Campos Ocultos o Especiales -->
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
+                        <!-- Botones de Acción -->
+                        <div class="form-actions">
+                            <a href="{% url 'mantenedor_lista_productos' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i>
+                                Volver al Listado
+                            </a>
+                            <div class="action-buttons">
+                                <button type="reset" class="btn btn-outline-secondary">
+                                    <i class="fas fa-undo"></i>
+                                    Limpiar
+                                </button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i>
+                                    Guardar Producto
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Información de Ayuda -->
+            <div class="card help-info">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle"></i>
+                        Información Importante
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="info-list">
+                        <li><i class="fas fa-asterisk required-field"></i> Campos obligatorios</li>
+                        <li>Los productos se mostrarán en el catálogo público automáticamente</li>
+                        <li>Verifica que la información del producto sea correcta antes de guardar</li>
+                        <li>Las nuevas categorías se crearán automáticamente al guardar el producto</li>
+                        <li><strong>Problema con categorías?</strong> Selecciona "---------" en categoría existente para poder escribir nueva categoría</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Script para mejoras de UX
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('form-agregar-producto');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    // Validación en tiempo real para precio y stock
+    const precioInput = document.getElementById('{{ form.precio.id_for_label }}');
+    const stockInput = document.getElementById('{{ form.cantidad.id_for_label }}');
+    
+    if (precioInput) {
+        precioInput.addEventListener('input', function() {
+            if (this.value < 0) {
+                this.value = 0;
+            }
+        });
+    }
+    
+    if (stockInput) {
+        stockInput.addEventListener('input', function() {
+            if (this.value < 0) {
+                this.value = 0;
+            }
+        });
+    }
+
+    // Lógica MEJORADA para categorías - Control exclusivo
+    const selectCategoria = document.getElementById('{{ form.categoria.id_for_label }}');
+    const inputNuevaCategoria = document.getElementById('{{ form.nueva_categoria.id_for_label }}');
+    
+    function actualizarEstadoCamposCategoria() {
+        const tieneCategoriaSeleccionada = selectCategoria.value !== '';
+        const tieneNuevaCategoria = inputNuevaCategoria.value.trim() !== '';
+        
+        // NUNCA deshabilitar campos - solo mostrar guías
+        selectCategoria.disabled = false;
+        inputNuevaCategoria.disabled = false;
+        inputNuevaCategoria.placeholder = 'Ej: Herramientas Digitales';
+        
+        // Remover clases de estado primero
+        selectCategoria.classList.remove('is-warning', 'is-success', 'is-info');
+        inputNuevaCategoria.classList.remove('is-warning', 'is-success', 'is-info');
+        
+        if (tieneCategoriaSeleccionada && tieneNuevaCategoria) {
+            // Ambos tienen valor - mostrar advertencia fuerte
+            selectCategoria.classList.add('is-warning');
+            inputNuevaCategoria.classList.add('is-warning');
+            mostrarMensajeCategoria('warning', 
+                '<strong>Conflicto:</strong> Tienes ambos campos llenos. <br>' +
+                'Se usará la categoría existente y se ignorará la nueva categoría. ' +
+                '<button type="button" class="btn btn-sm btn-outline-warning ms-2" onclick="limpiarNuevaCategoria()">Limpiar nueva categoría</button>' +
+                '<button type="button" class="btn btn-sm btn-outline-secondary ms-1" onclick="seleccionarCategoriaVacia()">Usar nueva categoría</button>'
+            );
+        } else if (tieneCategoriaSeleccionada) {
+            // Solo categoría existente seleccionada
+            selectCategoria.classList.add('is-success');
+            mostrarMensajeCategoria('success', 
+                '<strong>✓ Usando categoría existente:</strong> "' + selectCategoria.options[selectCategoria.selectedIndex].text + '"'
+            );
+        } else if (tieneNuevaCategoria) {
+            // Solo nueva categoría escrita
+            inputNuevaCategoria.classList.add('is-success');
+            mostrarMensajeCategoria('success', 
+                '<strong>✓ Creando nueva categoría:</strong> "' + inputNuevaCategoria.value + '"'
+            );
+        } else {
+            // Ambos vacíos - mostrar instrucción clara
+            selectCategoria.classList.add('is-info');
+            mostrarMensajeCategoria('info', 
+                '<strong>Instrucciones:</strong> Selecciona una categoría existente O escribe una nueva categoría. ' +
+                '<strong>Para nueva categoría:</strong> selecciona "---------" arriba y escribe aquí.'
+            );
+        }
+    }
+    
+    function mostrarMensajeCategoria(tipo, mensaje) {
+        // Remover mensaje anterior si existe
+        let mensajeAnterior = document.getElementById('mensaje-categoria');
+        if (mensajeAnterior) {
+            mensajeAnterior.remove();
+        }
+        
+        // Crear nuevo mensaje
+        if (inputNuevaCategoria) {
+            const mensajeDiv = document.createElement('div');
+            mensajeDiv.id = 'mensaje-categoria';
+            mensajeDiv.className = `alert alert-${tipo} small mt-2 p-2`;
+            mensajeDiv.innerHTML = mensaje;
+            
+            // Insertar después del campo de nueva categoría
+            inputNuevaCategoria.parentNode.appendChild(mensajeDiv);
+        }
+    }
+    
+    // Funciones globales para los botones de ayuda
+    window.limpiarNuevaCategoria = function() {
+        inputNuevaCategoria.value = '';
+        actualizarEstadoCamposCategoria();
+    };
+    
+    window.seleccionarCategoriaVacia = function() {
+        // Buscar la opción vacía (valor vacío) en el select
+        for (let i = 0; i < selectCategoria.options.length; i++) {
+            if (selectCategoria.options[i].value === '') {
+                selectCategoria.selectedIndex = i;
+                break;
+            }
+        }
+        actualizarEstadoCamposCategoria();
+        inputNuevaCategoria.focus();
+    };
+    
+    // Limpiar automáticamente el campo opuesto cuando se usa uno
+    function manejarExclusividad(campoActivado) {
+        if (campoActivado === selectCategoria && selectCategoria.value !== '') {
+            // Si seleccionaron una categoría existente, limpiar nueva categoría
+            inputNuevaCategoria.value = '';
+        } else if (campoActivado === inputNuevaCategoria && inputNuevaCategoria.value.trim() !== '') {
+            // Si empezaron a escribir nueva categoría, seleccionar opción vacía si no hay categoría seleccionada
+            if (selectCategoria.value === '') {
+                // Ya está vacío, no hacer nada
+            } else {
+                // Hay una categoría seleccionada, ofrecer limpiarla
+                if (confirm('¿Quieres usar la nueva categoría en lugar de la seleccionada? Se limpiará la selección actual.')) {
+                    window.seleccionarCategoriaVacia();
+                }
+            }
+        }
+        actualizarEstadoCamposCategoria();
+    }
+    
+    // Escuchar cambios en ambos campos
+    if (selectCategoria && inputNuevaCategoria) {
+        selectCategoria.addEventListener('change', function() {
+            manejarExclusividad(this);
+        });
+        
+        inputNuevaCategoria.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                manejarExclusividad(this);
+            } else {
+                actualizarEstadoCamposCategoria();
+            }
+        });
+        
+        inputNuevaCategoria.addEventListener('focus', function() {
+            // Cuando enfocan el campo de nueva categoría, asegurarse de que el select esté vacío
+            if (selectCategoria.value !== '' && inputNuevaCategoria.value === '') {
+                mostrarMensajeCategoria('warning', 
+                    'Tienes una categoría seleccionada. Si quieres crear nueva categoría, primero selecciona "---------" en la lista de arriba.'
+                );
+            }
+        });
+        
+        // Ejecutar al cargar la página
+        actualizarEstadoCamposCategoria();
+    }
+    
+    // Validación antes de enviar el formulario
+    form.addEventListener('submit', function(e) {
+        const tieneCategoriaSeleccionada = selectCategoria.value !== '';
+        const tieneNuevaCategoria = inputNuevaCategoria.value.trim() !== '';
+        
+        // Verificar que al menos una categoría esté seleccionada
+        if (!tieneCategoriaSeleccionada && !tieneNuevaCategoria) {
+            e.preventDefault();
+            alert('Error: Debes seleccionar una categoría existente O crear una nueva categoría.');
+            selectCategoria.focus();
+            return false;
+        }
+        
+        // Si ambos están llenos, usar solo la categoría existente
+        if (tieneCategoriaSeleccionada && tieneNuevaCategoria) {
+            if (!confirm('⚠️ Tienes ambos campos de categoría llenos. Se usará la categoría existente "' + 
+                        selectCategoria.options[selectCategoria.selectedIndex].text + 
+                        '" y se ignorará la nueva categoría "' + inputNuevaCategoria.value + '". ¿Continuar?')) {
+                e.preventDefault();
+                return false;
+            }
+            inputNuevaCategoria.value = '';
+        }
+        
+        // Feedback visual al enviar
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+    });
+    
+    // Confirmación antes de limpiar el formulario
+    form.addEventListener('reset', function(e) {
+        if (!confirm('¿Estás seguro de que quieres limpiar todos los campos del formulario?')) {
+            e.preventDefault();
+        } else {
+            // Restaurar estado de los campos después de limpiar
+            setTimeout(actualizarEstadoCamposCategoria, 100);
+        }
+    });
+});
+</script>
+
+<style>
+.is-warning {
+    border-color: #ffc107 !important;
+    background-color: #fffbf0 !important;
+}
+
+.is-success {
+    border-color: #198754 !important;
+    background-color: #f8fff9 !important;
+}
+
+.is-info {
+    border-color: #0dcaf0 !important;
+    background-color: #f0f9ff !important;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.help-info {
+    margin-top: 1.5rem;
+}
+
+.info-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.info-list li {
+    padding: 0.25rem 0;
+}
+
+.required-field {
+    color: #dc3545;
+    font-size: 0.7em;
+}
+
+#mensaje-categoria {
+    font-size: 0.85em;
+}
+
+#mensaje-categoria .btn {
+    font-size: 0.75em;
+    padding: 0.15rem 0.5rem;
+}
+</style>
+{% endblock %}
