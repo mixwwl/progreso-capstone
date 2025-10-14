@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio | NexoTech{% endblock %}
+
+{% block content %}
+  <!-- NOVEDADES -->
+  <section class="section">
+    <h2>Novedades</h2>
+    <div class="hero-box placeholder"></div>
+  </section>
+
+  <!-- VENTAS POPULARES -->
+  <section class="section">
+    <h2>Ventas Populares</h2>
+    <div class="cards">
+      {% for i in "123" %}
+      <article class="card">
+        <div class="card-media placeholder"></div>
+        <div class="card-body">
+          <div class="row">
+            <span class="muted">Nombre producto</span>
+            <span class="muted">Precio</span>
+          </div>
+          <div class="row">
+            <div class="actions">
+              <button class="btn" data-add>Agregar</button>
+            </div>
+            <div class="qty">
+              <label class="muted">Cantidad</label>
+              <select class="input">
+                <option>1</option>
+                <option selected>3</option>
+                <option>5</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}
