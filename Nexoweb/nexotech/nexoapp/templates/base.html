@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}NexoTech{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-left">
+    <a class="logo" href="{% url 'home' %}"><span class="logo-box"></span></a>
+    <nav class="menu">
+      <a href="{% url 'home' %}" class="active">Home</a>
+      <a href="{% url 'productos' %}">Productos</a>
+      <a href="{% url 'miperfil' %}">Mi Perfil</a>
+      <a href="{% url 'carrito' %}">Carrito</a>
+    </nav>
+  </div>
+
+  <div class="nav-right">
+    <a href="{% url 'suscripcion' %}" class="link-sub">Suscripción</a>
+    <a href="{% url 'carrito' %}" class="icon-btn cart">🛒</a>
+
+    {% if request.user.is_authenticated %}
+      <!-- Mostrar usuario logueado -->
+      <span class="user-info">👤 {{ request.user.username }}</span>
+      <a href="{% url 'logout' %}" class="btn btn-dark">Cerrar sesión</a>
+    {% else %}
+      <!-- Mostrar login si no está logueado -->
+      <a href="{% url 'login' %}" class="btn btn-dark">Iniciar sesión</a>
+    {% endif %}
+  </div>
+</header>
+
+    <!-- CONTENIDO ESPECÍFICO DE CADA PÁGINA -->
+    <main class="container">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-col brand">
+        <span class="footer-logo"></span>
+        <h4>Servicio al cliente</h4>
+        <ul>
+          <li><a href="#">Instrucciones</a></li>
+          <li><a href="#">¿Problemas?</a></li>
+          <li><a href="#">Términos de privacidad</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>NexoTech</h4>
+        <ul>
+          <li><a href="#">Sobre nosotros</a></li>
+          <li><a href="#">Visión y objetivo</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li>📸 💬 🐦</li>
+          <li>+56 9 5883 5855</li>
+          <li><a href="mailto:contact@contact.cl">contact@contact.cl</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+  </body>
+</html>
