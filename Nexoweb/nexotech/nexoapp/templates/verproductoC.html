@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ producto.nombre }} - NexoTech{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="{% url 'home' %}">Inicio</a> &gt;
+        <a href="{% url 'productos_cliente' %}">Productos</a> &gt;
+        <span>{{ producto.nombre }}</span>
+    </div>
+
+    <!-- Detalles del Producto -->
+    <div class="producto-detalle">
+        <!-- Columna Izquierda - Imagen -->
+        <div class="producto-imagen-grande">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-principal">
+            {% else %}
+                <div class="imagen-placeholder-grande">
+                    📷
+                    <p>Imagen no disponible</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Columna Derecha - Información -->
+        <div class="producto-info-detalle">
+            <h1>{{ producto.nombre }}</h1>
+            
+            <!-- Meta Información -->
+            <div class="producto-meta">
+                <div class="codigo-producto">Código: {{ producto.codigo_producto }}</div>
+                <div class="categoria-producto">Categoría: {{ producto.categoria.nombre }}</div>
+            </div>
+
+            <!-- Precio -->
+            <div class="producto-precio-detalle">
+                ${{ producto.precio }}
+            </div>
+
+            <!-- Estado del Stock -->
+            <div class="producto-stock">
+                {% if producto.tiene_stock %}
+                    <div class="stock-disponible">✓ En stock - {{ producto.cantidad }} unidades disponibles</div>
+                    {% if producto.stock_bajo %}
+                        <div class="stock-bajo">⚠ Stock bajo</div>
+                    {% endif %}
+                {% else %}
+                    <div class="stock-agotado">✗ Agotado</div>
+                {% endif %}
+            </div>
+
+            <!-- Descripción -->
+            {% if producto.descripcion %}
+            <div class="producto-descripcion-detalle">
+                <h3>Descripción del Producto</h3>
+                <p>{{ producto.descripcion }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Acciones -->
+            <div class="producto-acciones-detalle">
+                {% if producto.tiene_stock %}
+                <form method="post" action="{% url 'agregar_al_carrito' producto.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-agregar-carrito">
+                        🛒 Agregar al Carrito
+                    </button>
+                </form>
+                {% else %}
+                <button class="btn-agregar-carrito" disabled>
+                    Producto Agotado
+                </button>
+                {% endif %}
+            </div>
+
+            <!-- Información Adicional -->
+            <div class="producto-info-adicional">
+                <div class="info-item">
+                    <strong>Estado</strong>
+                    <span class="{% if producto.tiene_stock %}estado-activo{% else %}estado-inactivo{% endif %}">
+                        {{ producto.tiene_stock|yesno:"Disponible,Agotado" }}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <strong>Categoría</strong>
+                    <span>{{ producto.categoria.nombre }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Stock</strong>
+                    <span>{{ producto.cantidad }} unidades</span>
+                </div>
+                <div class="info-item">
+                    <strong>Código</strong>
+                    <span>{{ producto.codigo_producto }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Productos Relacionados -->
+    {% if productos_relacionados %}
+    <section class="productos-relacionados">
+        <h2>Productos Relacionados</h2>
+        <div class="grid-productos-relacionados">
+            {% for producto_rel in productos_relacionados %}
+            <div class="card-producto-relacionado">
+                <div class="producto-rel-imagen">
+                    {% if producto_rel.imagen %}
+                        <img src="{{ producto_rel.imagen.url }}" alt="{{ producto_rel.nombre }}">
+                    {% else %}
+                        <div class="imagen-placeholder-pequeno">
+                            📷
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="producto-rel-info">
+                    <h4>{{ producto_rel.nombre }}</h4>
+                    <div class="producto-rel-precio">${{ producto_rel.precio }}</div>
+                    <div class="{% if producto_rel.tiene_stock %}estado-activo{% else %}estado-inactivo{% endif %}">
+                        {{ producto_rel.tiene_stock|yesno:"Disponible,Agotado" }}
+                    </div>
+                    <a href="{% url 'ver_producto_cliente' producto_rel.id %}" class="btn-ver-relacionado">
+                        Ver Detalles
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Navegación -->
+    <div class="navegacion-producto">
+        <a href="{% url 'productos_cliente' %}" class="btn-volver">← Volver a Productos</a>
+        {% if user.is_authenticated and user.perfil.rol == 3 %}
+            <a href="{% url 'mantenedor_editar_producto' producto.id %}" class="btn-editar-admin">
+                ✏️ Editar Producto
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Validación simple si decides agregar cantidad después
+window.onload = function() {
+    // Aquí puedes agregar validaciones si necesitas
+};
+</script>
+{% endblock %}
