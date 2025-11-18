@@ -1,0 +1,128 @@
+{% extends 'mantenedor/basemantenedor.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'verproducto.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- BREADCRUMB -->
+    <nav class="breadcrumb">
+        <a href="{% url 'indexM' %}">Inicio</a> &gt;
+        <a href="{% url 'productos' %}">Productos</a> &gt;
+        <span>{{ producto.nombre }}</span>
+    </nav>
+
+    <!-- DETALLES DEL PRODUCTO -->
+    <div class="producto-detalle">
+        <div class="producto-imagen-grande">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-principal">
+            {% else %}
+                <div class="imagen-placeholder-grande">
+                    <span>Imagen no disponible</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="producto-info-detalle">
+            <h1>{{ producto.nombre }}</h1>
+
+            <div class="producto-precio-detalle"> 
+                <strong>${{ producto.precio }}</strong>
+            </div>
+
+            <div class="producto-stock">
+                {% if producto.tiene_stock %}
+                    <span class="stock-disponible">En stock ({{ producto.cantidad }} disponibles)</span>
+                    {% if producto.stock_bajo %}
+                        <span class="stock-bajo">¡Ultimas unidades!</span>
+                    {% endif %}
+                {% else %}
+                    <span class="stock-agotado">Producto agotado</span>
+                {% endif %}
+            </div>
+
+            {% if producto.descripcion %}
+            <div class="producto-descripcion-detalle">
+                <h3>Descripcion</h3>
+                <p>{{ producto.descripcion }}</p>
+            </div>
+            {% endif %}
+
+            <div class="producto-info-adicional">
+                <div class="info-item">
+                    <strong>Proveedor:</strong>
+                    <span>{% if producto.proveedor %}{{ producto.proveedor }}{% else %}No especificado{% endif %}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Disponibilidad:</strong>
+                    <span class="{% if producto.tiene_stock %}estado-activo{% else %}estado-inactivo{% endif %}">
+                        {{ producto.tiene_stock|yesno:"Disponible,No disponible" }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCTOS RELACIONADOS -->
+    {% if productos_relacionados %}
+    <section class="productos-relacionados">
+        <h2>Productos relacionados</h2>
+        <div class="grid-productos-relacionados">
+            {% for producto_rel in productos_relacionados %}
+            <div class="card-producto-relacionado">
+                <div class="producto-rel-imagen">
+                    {% if producto_rel.imagen %}
+                        <img src="{{ producto_rel.imagen.url }}" alt="{{ producto_rel.nombre }}">
+                    {% else %}
+                        <div class="imagen-placeholder-pequeno">
+                            <span>Imagen no disponible</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="producto-rel-info">
+                    <h4>{{ producto_rel.nombre }}</h4>
+                    <p class="producto-rel-precio">${{ producto_rel.precio }}</p>
+                    <a href="{% url 'ver_producto' producto_rel.id %}" class="btn-ver-relacionado">
+                        Ver detalles
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- BOTONES DE NAVEGACIÓN -->
+    <div class="navegacion-producto">
+        <a href="{% url 'productos' %}" class="btn-volver">
+            Volver a todos los productos
+        </a>
+        {% if user.is_staff %}
+        <a href="{% url 'mantenedor_editar_producto' producto.id %}" class="btn-editar-admin">
+            Editar producto
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Efectos de hover en productos relacionados
+    const cardsRelacionados = document.querySelectorAll('.card-producto-relacionado');
+    cardsRelacionados.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
+{% endblock %}

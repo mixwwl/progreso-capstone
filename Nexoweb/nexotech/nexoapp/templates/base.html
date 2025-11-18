@@ -5,71 +5,167 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}NexoTech{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    >
+
+    <!-- Estilos propios -->
     <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" href="{% static 'catalgo.css' %}" />
+    <link rel="stylesheet" href="{% static 'verproducto.css' %}">
+    <link rel="stylesheet" href="{% static 'carrito.css' %}" />
+
+    <!-- Ajuste visual opcional para el carrusel -->
+    <style>
+      .carousel-item img {
+        height: 420px;
+        object-fit: cover;
+      }
+      /* Estilo para el enlace de admin */
+      .admin-link {
+        background-color: #e60c21;
+        color: white !important;
+        padding: 4px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.85em;
+        margin-left: 10px;
+        transition: background-color 0.3s;
+      }
+      .admin-link:hover {
+        background-color: #c82333;
+      }
+    </style>
   </head>
   <body>
     <!-- NAVBAR -->
-<header class="navbar">
-  <div class="nav-left">
-    <a class="logo" href="{% url 'home' %}"><span class="logo-box"></span></a>
-    <nav class="menu">
-      <a href="{% url 'home' %}" class="active">Home</a>
-      <a href="{% url 'productos' %}">Productos</a>
-      <a href="{% url 'miperfil' %}">Mi Perfil</a>
-      <a href="{% url 'carrito' %}">Carrito</a>
-    </nav>
-  </div>
+    <header class="navbar">
+      <div class="nav-left">
+        <a class="logo" href="{% url 'home' %}"> <!--<span class="logo-box"></span></a>-->
+        <nav class="menu">
+          <a href="{% url 'home' %}" class="active">Home</a>
+          <a href="{% url 'productos_cliente' %}">Productos</a>
+          <a href="{% url 'miperfil' %}">Mi Perfil</a>
+          <!--<a href="{% url 'carrito' %}">Carrito</a>-->
+          <a href="{% url 'suscripcion' %}">Suscripción</a>
+        </nav>
+      </div>
 
-  <div class="nav-right">
-    <a href="{% url 'suscripcion' %}" class="link-sub">Suscripción</a>
-    <a href="{% url 'carrito' %}" class="icon-btn cart">🛒</a>
+      <div class="nav-right">
+        
+        <a href="{% url 'carrito' %}" class="icon-btn cart">🛒</a>
 
-    {% if request.user.is_authenticated %}
-      <!-- Mostrar usuario logueado -->
-      <span class="user-info">👤 {{ request.user.username }}</span>
-      <a href="{% url 'logout' %}" class="btn btn-dark">Cerrar sesión</a>
-    {% else %}
-      <!-- Mostrar login si no está logueado -->
-      <a href="{% url 'login' %}" class="btn btn-dark">Iniciar sesión</a>
-    {% endif %}
-  </div>
-</header>
+        {% if request.user.is_authenticated %}
+          <!-- Mostrar usuario logueado -->
+          <span class="user-info">👤 {{ request.user.username }}</span>
+          
+          <!-- Enlace al Admin (solo para staff) -->
+          {% if request.user.is_staff or request.user.is_superuser %}
+            <a href="{% url 'admin:index' %}" class="admin-link">🧑‍💼 Admin</a>
+          {% endif %}
+          
+          <a href="{% url 'logout' %}" class="btn btn-dark">Cerrar sesión</a>
+        {% else %}
+          <!-- Mostrar login si no está logueado -->
+          <a href="{% url 'login' %}" class="btn btn-dark">Iniciar sesión</a>
+        {% endif %}
+      </div>
+    </header>
 
     <!-- CONTENIDO ESPECÍFICO DE CADA PÁGINA -->
-    <main class="container">
+    <main class="container mt-4">
       {% block content %}{% endblock %}
     </main>
 
-    <!-- FOOTER -->
+    <!-- FOOTER MEJORADO -->
     <footer class="footer">
-      <div class="footer-col brand">
-        <span class="footer-logo"></span>
-        <h4>Servicio al cliente</h4>
-        <ul>
-          <li><a href="#">Instrucciones</a></li>
-          <li><a href="#">¿Problemas?</a></li>
-          <li><a href="#">Términos de privacidad</a></li>
-        </ul>
-      </div>
+        <div class="footer-container">
+            <div class="footer-content">
+                <!-- Columna de marca -->
+                <div class="footer-col brand">
+                    <!--<span class="footer-logo"></span>-->
+                    <p>NexoTech - Tu plataforma confiable para materiales de construcción. Conectamos proveedores y clientes de manera eficiente y segura.</p>
+                    <div class="social-links">
+                        <a href="#" title="Facebook">📘</a>
+                        <a href="#" title="Instagram">📸</a>
+                        <a href="#" title="Twitter">🐦</a>
+                        <a href="#" title="LinkedIn">💼</a>
+                    </div>
+                </div>
 
-      <div class="footer-col">
-        <h4>NexoTech</h4>
-        <ul>
-          <li><a href="#">Sobre nosotros</a></li>
-          <li><a href="#">Visión y objetivo</a></li>
-        </ul>
-      </div>
+                <!-- Columna de servicio al cliente -->
+                <div class="footer-col">
+                    <h4>Servicio al Cliente</h4>
+                    <ul>
+                        <li><a href="#">Centro de Ayuda</a></li>
+                        <li><a href="#">Guías de Compra</a></li>
+                        <li><a href="#">Soporte Técnico</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                    </ul>
+                </div>
 
-      <div class="footer-col">
-        <h4>Contacto</h4>
-        <ul>
-          <li>📸 💬 🐦</li>
-          <li>+56 9 5883 5855</li>
-          <li><a href="mailto:contact@contact.cl">contact@contact.cl</a></li>
-        </ul>
-      </div>
+                <!-- Columna de empresa -->
+                <div class="footer-col">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="#">Sobre Nosotros</a></li>
+                        <li><a href="#">Nuestra Misión</a></li>
+                        <li><a href="#">Trabaja con Nosotros</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Noticias</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna de contacto -->
+                <div class="footer-col">
+                    <h4>Contacto</h4>
+                    <ul class="contact-info">
+                        <li>
+                            <i>📞</i>
+                            <span>+56 9 5883 5855</span>
+                        </li>
+                        <li>
+                            <i>✉️</i>
+                            <span><a href="mailto:contact@nexotech.cl">contact@nexotech.cl</a></span>
+                        </li>
+                        <li>
+                            <i>📍</i>
+                            <span>Av. Principal 123, Santiago, Chile</span>
+                        </li>
+                    </ul>
+                    
+                    <h5 class="mt-3">Newsletter</h5>
+                    <p style="font-size: 0.85rem; color: #bbb; margin-bottom: 0.5rem;">Suscríbete para ofertas exclusivas</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Tu correo electrónico" required>
+                        <button type="submit">Suscribir</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 NexoTech. Todos los derechos reservados. | Desarrollado con ❤️ para la industria de la construcción</p>
+                
+                <!-- Enlace admin en footer (solo para staff) -->
+                {% if request.user.is_staff or request.user.is_superuser %}
+                <p style="margin-top: 10px; font-size: 0.8rem;">
+                    <a href="{% url 'admin:index' %}" style="color: #ff6b6b; text-decoration: none;">
+                        🔧 Panel de Administración
+                    </a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
     </footer>
 
+    <!-- Bootstrap JS (necesario para carrusel) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script propio -->
     <script src="{% static 'js/script.js' %}"></script>
   </body>
 </html>

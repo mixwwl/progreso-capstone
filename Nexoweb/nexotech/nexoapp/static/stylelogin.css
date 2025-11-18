@@ -1,3 +1,5 @@
+/* ===== RESET Y CONFIGURACIÓN GLOBAL ===== */
+/* Reset universal: elimina márgenes, paddings y aplica box-sizing border-box a todos los elementos */
 * {
   font-family: sans-serif;
   margin: 0;
@@ -5,106 +7,249 @@
   box-sizing: border-box;
 }
 
+/* ===== ESTILOS DEL CUERPO Y FONDO ===== */
+/* Centra el contenido vertical y horizontalmente, aplica imagen de fondo */
 body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 100vh; /* Ocupa al menos toda la altura de la ventana */
   background: url(https://c.wallhere.com/photos/da/70/digital_art_landscape_illustration_skyline-2285476.jpg!d) no-repeat;
   background-size: cover;
   background-position: center;
 }
 
-/* esto estaba dentro de body (CSS inválido) */
+/* ===== CRÉDITOS DE LA IMAGEN ===== */
+/* Texto de créditos fijo en la esquina inferior derecha */
 #credits {
-  position: fixed; bottom: 10px; right: 10px;
-  color: #fff; font-size: 12px; font-family: Arial, sans-serif;
+  position: fixed; 
+  bottom: 10px; 
+  right: 10px;
+  color: #fff; 
+  font-size: 12px; 
+  font-family: Arial, sans-serif;
 }
 
+/* ===== CONTENEDOR PRINCIPAL DEL FORMULARIO ===== */
+/* Contenedor con efecto glassmorphism (transparencia y desenfoque) */
 .container {
   width: 420px;
   background: transparent;
   border: 2px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 8px 28px rgba(0,0,0,.25); /* antes estaba mal escrito */
-  color: #fff;
+  backdrop-filter: blur(18px); /* Efecto de desenfoque del fondo */
+  box-shadow: 0 8px 28px rgba(0,0,0,.25); /* Sombra suave */
+  color: #9f1c1c; /* Color del texto principal - ROJO */
   border-radius: 14px;
   padding: 30px 28px;
 }
 
+/* ===== TÍTULO DEL FORMULARIO ===== */
 .container h1 {
   font-size: 36px;
   text-align: center;
   margin-bottom: 18px;
 }
 
-/* etiquetas y campos */
-.container label { display:block; font-weight:600; margin-bottom:6px; }
+/* ===== ETIQUETAS Y CAMPOS DE FORMULARIO ===== */
+/* Estilos para las etiquetas de los campos */
+.container label { 
+  display:block; 
+  font-weight:600; 
+  margin-bottom:6px; 
+}
+
+/* Estilos para todos los campos de entrada (inputs, selects, textareas) */
 .container input,
-.container select,
+.container select,  /* ← Esto afecta el SELECT de "Tipo de cuenta" */
 .container textarea {
   width: 100%;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.06); /* Fondo semi-transparente blanco */
+  border: 1px solid rgba(255,255,255,.25); /* Borde semi-transparente */
   outline: none;
   border-radius: 8px;
   font-size: 16px;
-  color: #fff;
+  color: #1f0c0c; /* Color del texto dentro de los campos - NEGRO/GRIS OSCURO */
   padding: 12px 12px;
 }
 
-/* placeholder claro */
-.container ::placeholder { color: rgba(255,255,255,.85); }
+/* ===== PLACEHOLDERS ===== */
+/* Color de los textos de placeholder en los campos */
+.container ::placeholder { 
+  color: rgba(131, 35, 35, 0.85); /* Placeholder en ROJO OSCURO semi-transparente */
+}
 
-/* bloques de campo */
-.container .mb-3 { margin-bottom: 14px; }
+/* ===== ESPACIADO DE CAMPOS ===== */
+/* Clase utilitaria para margen inferior */
+.container .mb-3 { 
+  margin-bottom: 14px; 
+}
 
-/* dos columnas para password / confirmación */
+/* ===== DISEÑO RESPONSIVE PARA CONTRASEÑAS ===== */
+/* Grid de 2 columnas para contraseña y confirmación */
 .row-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+/* En móviles, cambia a 1 columna */
 @media (max-width: 560px) {
-  .row-2 { grid-template-columns: 1fr; }
+  .row-2 { 
+    grid-template-columns: 1fr; 
+  }
 }
 
-/* textos de ayuda (requisitos de contraseña, etc.) */
+/* ===== TEXTOS DE AYUDA ===== */
+/* Estilos para textos de ayuda como requisitos de contraseña */
 .container form .helptext,
 .container form .form-text,
 .container form .text-muted { 
   display:block; 
-  color: #eaeaea; 
+  color: #161414; /* Color del texto de ayuda - GRIS OSCURO */
   font-size: 12px; 
   margin-top: 6px;
 }
-/* la ayuda de password viene como <ul><li>… */
+
+/* Listas de ayuda (como requisitos de contraseña en <ul>) */
 .container form ul {
   margin: 8px 0 0 18px;
-  color: #eaeaea;
+  color: #eaeaea; /* Color de los ítems de lista - GRIS CLARO */
   font-size: 12px;
 }
 
-/* botón */
+/* ===== BOTÓN PRINCIPAL ===== */
 .container .btn {
   width: 100%;
   height: 45px;
-  background: #fff;
+  background: #2b4d59; /* Color de fondo del botón - AZUL VERDOSO OSCURO */
   border: none;
   border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 700;
-  color: #333;
-  transition: transform .06s ease;
+  color: #333; /* Color del texto del botón - GRIS OSCURO */
+  transition: transform .06s ease; /* Transición suave al hacer clic */
 }
-.container .btn:active { transform: translateY(1px); }
+/* Efecto al presionar el botón */
+.container .btn:active { 
+  transform: translateY(1px); /* Desplazamiento hacia abajo al hacer clic */
+}
 
-/* link inferior */
+/* ===== ENLACE INFERIOR ===== */
 .container .register-link {
   font-size: 14.5px;
   text-align: center;
   margin: 16px 0 0;
 }
-.register-link a { color: #fff; font-weight: 600; text-decoration: none; }
-.register-link a:hover { text-decoration: underline; }
+/* Estilos para los enlaces de registro/login */
+.register-link a { 
+  color: #221111; /* Color del enlace - MARRÓN OSCURO */
+  font-weight: 600; 
+  text-decoration: none; 
+}
+.register-link a:hover { 
+  text-decoration: underline; /* Subrayado al hacer hover */
+}
+
+/* ================================================== */
+/* ===== ESTILOS ESPECÍFICOS PARA REGISTRO ===== */
+/* ================================================== */
+
+/* ===== CONTENEDORES DE CAMPOS CON ICONOS ===== */
+.input-box {
+  position: relative; /* Permite posicionar el icono absolutamente */
+  margin-bottom: 20px;
+}
+
+/* Campos de entrada para formulario de registro */
+.input-box input,
+.input-box select {  /* ← Esto afecta específicamente el SELECT de "Tipo de cuenta" en registro */
+  width: 100%;
+  height: 45px;
+  background: rgba(255,255,255,.06); /* Fondo semi-transparente */
+  border: 1px solid rgba(255,255,255,.25); /* Borde semi-transparente */
+  outline: none;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #221c1c; /* Color del texto en los campos - GRIS OSCURO */
+  padding: 12px 45px 12px 15px; /* Espacio extra a la derecha para el icono */
+}
+
+/* ===== ICONOS DE LOS CAMPOS ===== */
+.input-box i {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%); /* Centra verticalmente el icono */
+  font-size: 18px;
+  color: rgba(35, 71, 102, 0.85); /* Color del icono - AZUL OSCURO semi-transparente */
+}
+
+/* ===== DISPOSICIÓN DE CAMPOS DE CONTRASEÑA ===== */
+.password-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+  gap: 12px;
+  margin-bottom: 20px;
+}
+/* Responsive: en móviles pasa a 1 columna */
+@media (max-width: 560px) {
+  .password-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== OCULTAR TEXTOS DE AYUDA AUTOMÁTICOS ===== */
+/* Oculta los textos de ayuda que Django genera automáticamente */
+.input-box .helptext {
+  display: none;
+}
+
+/* ===== MENSAJES DE ERROR ===== */
+/* Contenedor para mensajes de error de validación */
+.form-errors {
+  background: rgba(255, 0, 0, 0.1); /* Fondo rojo muy transparente */
+  border: 1px solid rgba(255, 100, 100, 0.3); /* Borde rojo semi-transparente */
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+/* Textos individuales de error */
+.form-errors .error {
+  color: #ff6b6b; /* Color del texto de error - ROJO CLARO */
+  margin: 5px 0;
+}
+
+/* ===== MENSAJES DEL SISTEMA (DJANGO) ===== */
+.messages {
+  margin-bottom: 20px;
+}
+
+/* Estilo base para todos los mensajes */
+.alert {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Mensajes de éxito (verde) */
+.alert-success {
+  background: rgba(0, 255, 0, 0.1); /* Fondo verde muy transparente */
+  border: 1px solid rgba(0, 255, 0, 0.3); /* Borde verde semi-transparente */
+  color: #90ee90; /* Texto verde claro */
+}
+
+/* Mensajes de error (rojo) */
+.alert-error {
+  background: rgba(255, 0, 0, 0.1); /* Fondo rojo muy transparente */
+  border: 1px solid rgba(255, 100, 100, 0.3); /* Borde rojo semi-transparente */
+  color: #ff6b6b; /* Texto rojo claro */
+}
+
+/* Mensajes informativos (azul) */
+.alert-info {
+  background: rgba(0, 100, 255, 0.1); /* Fondo azul muy transparente */
+  border: 1px solid rgba(100, 150, 255, 0.3); /* Borde azul semi-transparente */
+  color: #87ceeb; /* Texto azul claro */
+}
